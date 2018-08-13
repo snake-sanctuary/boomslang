@@ -1,0 +1,35 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+djangorestframework-jwt = "*"
+channels = "*"
+django-environ = "*"
+"argon2-cffi" = "*"
+django-model-utils = "*"
+"psycopg2" = "*"
+bleach = "*"
+mock = "*"
+pytest = "*"
+pytest-django = "*"
+factory-boy = "*"
+coverage = "*"
+channels-redis = "*"
+"flake8" = {editable = true, ref = "9631dac5", git = "https://gitlab.com/pycqa/flake8"}
+pylama = "*"
+requests = "*"
+djangorestframework-xml = "*"
+nodeenv = "*"
+
+[dev-packages]
+django-debug-toolbar = "*"
+ipdb = "*"
+"flake8" = "*"
+nodeenv = "*"
+
+[requires]
+python_version = "3.7"
