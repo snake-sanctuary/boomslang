@@ -2,6 +2,7 @@ db.sqlite3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.pytest_cache/
 *.py[cod]
 *$py.class
 
@@ -119,6 +120,21 @@ yarn-error.log*
 /test/e2e/reports/
 selenium-debug.log
 
+# nodeenv
+nenv
+
+/tests/e2e/videos/
+/tests/e2e/screenshots/
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Editor directories and files
 .idea
 .vscode
@@ -126,6 +142,10 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+*.sw*
 
-# nodeenv
-nenv
+# Config file
+config.yaml
+
+# Media files in development
+media/*

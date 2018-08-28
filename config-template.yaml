@@ -1,0 +1,17 @@
+DJANGO_DEBUG: True
+
+SECRET_KEY: S0me-Secret-Passw0rd
+
+# Mailtrap
+EMAIL_HOST: smtp.mailtrap.io
+EMAIL_HOST_USER: your-host-user
+EMAIL_HOST_PASSWORD: your-p@ssword
+EMAIL_PORT: 2525
+
+# Database
+DATABASE_URL: psql://username:password@the-ip_for_postgres:5432/liripype
+
+# Cache
+REDIS_URL: rediscache://127.0.0.1:6379/1
+
+DOMAIN_NAME: "your-domain-name"

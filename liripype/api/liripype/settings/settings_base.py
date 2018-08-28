@@ -10,20 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os
+import yaml
+from pathlib import Path
+from environ import Env
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).parent.parent.parent.parent.parent
+APPS_DIR = BASE_DIR/'liripype'/'liripype'/'api'
 
+with open(BASE_DIR/'config.yaml') as file:
+    config = yaml.load(file)
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'z6@6c@u$b3)82$s9dhgw7h8r$3t7llom7k!t)93)6v=kj$9!2r'
+SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.get('DJANGO_DEBUG', False)
+TEMPLATE_DEBUG = DEBUG
+PROTOCOL = config.get('DJANGO_PROTOCOL', 'http')
+DOMAIN_NAME = config['DOMAIN_NAME']
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +45,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+INSTALLED_APPS += [
+    'rest_framework',
+]
+
+INSTALLED_APPS += [
+    'auths',
+    'core',
+    'packages',
+    'stats',
+    'teams',
+    'users',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,18 +92,21 @@ WSGI_APPLICATION = 'liripype.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': Env.db_url_config(config['DATABASE_URL']),
+}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+# Cache
+CACHES = {
+    'default': Env.cache_url_config(config['REDIS_URL']),
 }
 
 
 # Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,9 +123,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ['auth.backends.EmailBackend']
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+
+# EMAIL CONFIGURATION
+# ------------------------------------------------------------------------------
+EMAIL_BACKEND = config.get('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config.get('EMAIL_HOST')
+EMAIL_HOST_USER = config.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = config.get('EMAIL_PORT')
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
+# https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -113,25 +156,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+# MEDIA
+MEDIA_ROOT = BASE_DIR/'media'
+
+MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
 
-INSTALLED_APPS += [
-    'rest_framework',
-]
-
-INSTALLED_APPS += [
-    'auths',
-    'core',
-    'packages',
-    'users',
-]
-
 AUTH_USER_MODEL = 'users.User'
-
-MEDIA_ROOT = '/home/ursi/workspace/liripype/media/'
-
-MEDIA_URL = '/media/'

@@ -1,9 +1,12 @@
+import base64
+
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import BasicAuthentication
 from django.contrib.auth import get_user_model
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
+
 
 User = get_user_model()
 
@@ -59,7 +62,7 @@ class TokenBasedBasicAuthentication(BasicAuthentication):
         print("TRYING AUTH WITH CREDENTIALS", credentials)
         try:
             user = User.objects.get(**credentials)
-        except (User.DoesNotExist, ValidationError) as e:
+        except (User.DoesNotExist, ValidationError):
             raise AuthenticationFailed('Invalid username/password.')
 
         if not user.is_active:

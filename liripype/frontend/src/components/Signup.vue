@@ -26,11 +26,9 @@ export default {
     postPost () {
       this.axios.post(`api/signup`, {
         body: this.postBody
-      })
-    .then(response => {
+      }).then(response => {
         console.log(response.content)
-      })
-        .catch(e => { this.errors.push(e) })
+      }).catch(e => { this.errors.push(e) })
     },
 
     checkUsername () {
