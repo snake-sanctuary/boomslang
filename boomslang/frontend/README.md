@@ -1,4 +1,4 @@
-# liripype
+# boomslang
 
 ## Project setup
 ```

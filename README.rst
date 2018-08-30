@@ -36,7 +36,6 @@ The admin panel is accessible at http://localhost:8000/admin after you start the
     $ python manage.py runserver --settings=config.settings.settings_local
 
 
-
 Testing
 ---------
 

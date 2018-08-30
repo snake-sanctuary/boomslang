@@ -9,7 +9,7 @@ EMAIL_HOST_PASSWORD: your-p@ssword
 EMAIL_PORT: 2525
 
 # Database
-DATABASE_URL: psql://username:password@the-ip_for_postgres:5432/liripype
+DATABASE_URL: psql://username:password@the-ip_for_postgres:5432/boomslang
 
 # Cache
 REDIS_URL: rediscache://127.0.0.1:6379/1
