@@ -1,28 +1,31 @@
-    Liripype
-==================
+    Boomslang Repository
+=========================
 
-A conda/pypi repository with enhanced permissions.
+A conda/pypi repository with an enhanced permission system tailored for large organisations.
 
 :License: MIT
+
+Features
+---------
+
+Coming soon
 
 
 Getting started
 ----------------
 
-* I use Python 3.6 compiled from source. The first step is to create a virtual environment preferable outside of the project::
+* Boomslang has been developed for Python 3.7 with PostgreSQL as a database, other configurations are not officially supported.
 
-    $ cd ~/your-path/virtual/
-    $ python -m venv name_of_virtual
-    $ source name_of_virtual/bin/activate
+The first step is to activate the virtual environment with pipenv::
 
-* Then, cd to the root folder of the project. Note that I've set the database to sqlite in local and test. This is strongly discouraged when using PostgreSQL in production (as it should be) but that way you don't need to set up a PostgreSQL server::
+    $ cd /path/to/boomslang/root/folder
+    $ pipenv shell
 
-    $ cd path/to/project
-    $ pip install -r requirements/local.txt
-    $ pip install -r requirements/test.txt
+Create a config.yaml in the root directory (use config-template for guidance), these will be loaded by the settings.
+You can then run::
+
     $ python manage.py makemigrations
     $ python manage.py migrate
-    $ python manage.py test --settings=config.settings.test
 
 * To create a **superuser account**, use this command::
 
@@ -30,18 +33,15 @@ Getting started
 
 The admin panel is accessible at http://localhost:8000/admin after you start the developement server. To do so::
 
-    $ python manage.py runserver --settings=config.settings.local
+    $ python manage.py runserver --settings=config.settings.settings_local
 
 
 
 Testing
 ---------
 
-The system has been unittested quite thoroughly, using factory_boy as a fixture replacement
-
-To run the tests::
-    $ python manage.py test --settings=config.settings.test
-
+Unit-tests rely on pytest, to run them::
+    $ pytest --ds=boomslang.settings.settings_test
 
 To check the coverage and generate an HTML coverage report::
 
